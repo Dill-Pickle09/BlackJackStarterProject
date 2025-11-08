@@ -87,6 +87,13 @@ def updateCards():
         label.image = photo
         label.pack(side=tk.LEFT, padx=5)
 
+    playerValueLabel.config(text=f"Player Value: {calculateHand(playerHand)}")
+
+    if dealerRevealed:
+        dealerValueLabel.config(text=f"Dealer Value: {calculateHand(dealerHand)}")
+    else:
+        dealerValueLabel.config(text="Dealer Value: ?")
+
 def startGame():
     global playerHand, dealerHand, dealerRevealed
     dealerRevealed = False
@@ -164,6 +171,13 @@ playerFrame.pack(pady=10)
 
 dealerFrame = tk.Frame(root, bg="#006400")
 dealerFrame.pack(pady=10)
+
+playerValueLabel = tk.Label(root, text="Player Value: 0", font=("Arial", 16), bg="#006400", fg="white")
+playerValueLabel.pack(pady=5)
+
+dealerValueLabel = tk.Label(root, text="Dealer Value: 0", font=("Arial", 16), bg="#006400", fg="white")
+dealerValueLabel.pack(pady=5)
+
 
 buttonFrame = tk.Frame(root, bg="#006400")
 buttonFrame.pack(pady=20)
