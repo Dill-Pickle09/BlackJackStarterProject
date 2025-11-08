@@ -14,8 +14,6 @@ random.shuffle(deck)
 playerHand = [deck.pop(), deck.pop()]
 dealerHand = [deck.pop(), deck.pop()]
 
-print("Your cards: ", playerHand)
-print("Here is one of the dealer's cards: ", dealerHand[0])
 
 def calculateHand(hand):
     value = 0
@@ -45,4 +43,50 @@ def showHand(playerHand, dealerHand, hideDealer=True):
 
 
 def blackjackGame():
+    global deck
+    print("This is Blackjack made in python!")
+
+    playerHand = [deck.pop(), deck.pop()]
+    dealerHand = [deck.pop(), deck.pop()]
+
+    while True:
+        showHand(playerHand, dealerHand)
+        playerValue = calculateHand(playerHand)
+
+        if playerValue > 21:
+            print("You busted! Quite unfortunate to see you lose.")
+            return
+        
+        move = input("Hit or Stand? (h or s) ").lower()
+
+        if move == 'h':
+            playerHand.append(deck.pop())
+        elif move =='s':
+            break
+        else:
+            print("Invalid choice dum dum, type h or s")
+
     
+    print("\nIt is now the Dealer's turn")
+    showHand(playerHand, dealerHand, hideDealer=False)
+    
+    while calculateHand(dealerHand) < 17:
+        dealerHand.append(deck.pop())
+        print("Dealer draws: ", dealerHand[-1])
+
+    playerValue = calculateHand(playerHand)
+    dealerValue = calculateHand(dealerHand)
+
+    print("\nFinal hands: ")
+    showHand(playerHand, dealerHand, hideDealer=False)
+
+    if dealerValue > 21 or playerValue > dealerValue:
+        print("You win! Bazinga")
+    elif dealerValue == playerValue:
+        print("You tied with the dealer lol")
+    else:
+        print("You lose dummy, Dealer wins")
+
+
+if __name__ == "__main__":
+    blackjackGame()
