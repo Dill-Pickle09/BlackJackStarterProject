@@ -1,5 +1,7 @@
 import tkinter as tk
+from PIL import Image, ImageTk
 import random
+import os
 
 suits = ['hearts', 'diamonds', 'clubs', 'spades']
 ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace']
@@ -20,6 +22,7 @@ def calculateHand(hand):
         aces -= 1
     return value
 
+'''
 root = tk.Tk()
 root.title("Blackjack in Python")
 root.geometry("700x500")
@@ -41,6 +44,8 @@ dealerLabel.pack(pady=10)
 buttonFrame = tk.Frame(root, bg="#006400")
 buttonFrame.pack(pady=20)
 
+'''
+
 def newDeck():
     global deck
     deck = [(rank, suit) for rank in ranks for suit in suits]
@@ -50,30 +55,59 @@ def dealCard(hand):
     if deck:
         hand.append(deck.pop())
 
+''' (Originally used for tkinter text based version)
 def updateLabels():
     playerText = ', '.join([f"{r} of {s}" for r, s in playerHand])
     dealerText = ', '.join([f"{r} of {s}" for r, s in dealerHand])
     playerLabel.config(text=f"Your Hand: {playerText} (Value: {calculateHand(playerHand)})")
     dealerLabel.config(text=f"Dealer Hand: {dealerText} (Value: {calculateHand(dealerHand)})")
 
+'''
+
+def updateCards():
+    for widget in playerFrame.winfo_children():
+        widget.destroy()
+    for widget in dealerFrame.winfo_children():
+        widget.destroy()
+
+    for rank, suit in playerHand:
+        img = Image.open(f"cards/{rank}_of_{suit}.png").resize((100,150))
+        photo = ImageTk.PhotoImage(img)
+        label = tk.Label(playerFrame, image=photo, bg="#006400")
+        label.image = photo
+        label.pack(side=tk.LEFT, padx=5)
+
+    for i, (rank, suit) in enumerate(dealerHand):
+        if i == 0 and not dealerRevealed:
+            img = Image.open("cards/back.png").resize((100,150))
+        else:
+            img = Image.open(f"cards/{rank}_of_{suit}.png").resize((100,150))
+        photo = ImageTk.PhotoImage(img)
+        label = tk.Label(dealerFrame, image=photo, bg="#006400")
+        label.image = photo
+        label.pack(side=tk.LEFT, padx=5)
+
 def startGame():
-    global playerHand, dealerHand
+    global playerHand, dealerHand, dealerRevealed
+    dealerRevealed = False
     newDeck()
     playerHand = [deck.pop(), deck.pop()]
     dealerHand = [deck.pop(), deck.pop()]
-    updateLabels()
+    updateCards()
     statusLabel.config(text="Game has started: hit or stand?")
     hitButton.config(state="normal")
     standButton.config(state="normal")
 
 def hit():
     dealCard(playerHand)
-    updateLabels()
+    updateCards()
     if calculateHand(playerHand) > 21:
         statusLabel.config(text="You busted, dealer wins")
         hitButton.config(state="disabled")
         standButton.config(state="disabled")
+        revealDealer()
 
+'''
 def stand():
     while calculateHand(dealerHand) < 17:
         dealCard(dealerHand)
@@ -92,6 +126,48 @@ def stand():
     hitButton.config(state="disabled")
     standButton.config(state="disabled")
 
+'''
+def stand():
+    global reveal_dealer
+    revealDealer()
+    while calculateHand(dealerHand) < 17:
+        dealCard(dealerHand)
+        updateCards()
+    playerScore = calculateHand(playerHand)
+    dealerScore = calculateHand(dealerHand)
+
+    if dealerScore > 21 or playerScore > dealerScore:
+        statusLabel.config(text="You Win!")
+    elif dealerScore == playerScore:
+        statusLabel.config(text="You tied with the dealer")
+    else:
+        statusLabel.config(text="Dealer wins, you lost lol")
+
+    hitButton.config(state="disabled")
+    standButton.config(state="disabled")
+
+def revealDealer():
+    global dealerRevealed
+    dealerRevealed = True
+    updateCards()
+
+
+root = tk.Tk()
+root.title("Blackjack in Python")
+root.config(bg="#006400")
+
+statusLabel = tk.Label(root, text="Welcome to Blackjack", font=("Arial", 20), bg="#006400", fg="white")
+statusLabel.pack(pady=20)
+
+playerFrame = tk.Frame(root, bg="#006400")
+playerFrame.pack(pady=10)
+
+dealerFrame = tk.Frame(root, bg="#006400")
+dealerFrame.pack(pady=10)
+
+buttonFrame = tk.Frame(root, bg="#006400")
+buttonFrame.pack(pady=20)
+
 
 hitButton = tk.Button(buttonFrame, text="Hit", font=("Arial", 14), bg="white", command=hit, state="disabled")
 hitButton.grid(row=0, column=10, padx=10)
@@ -101,5 +177,12 @@ standButton.grid(row=0, column=1, padx=10)
 
 startButton = tk.Button(buttonFrame, text="Start Game", font=("Arial", 14), bg="yellow", command=startGame)
 startButton.grid(row=0, column=2, padx=10)
+
+deck = []
+playerHand = []
+dealerHand = []
+dealerRevealed = False
+
+
 
 root.mainloop()
