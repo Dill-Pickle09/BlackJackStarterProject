@@ -68,6 +68,7 @@ def startGame():
     statusLabel.config(text="Player 1's Turn")
     hitButton.config(state="normal")
     standButton.config(state="normal")
+    startButton.config(state="disabled")
     updateCards()
 
 def hit():
@@ -126,7 +127,7 @@ def endGame():
     statusLabel.config(text=result)
     hitButton.config(state="disabled")
     standButton.config(state="disabled")
-
+    startButton.config(state="normal")
 
 
 
