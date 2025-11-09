@@ -183,13 +183,13 @@ buttonFrame = tk.Frame(root, bg="#006400")
 buttonFrame.pack(pady=20)
 
 
-hitButton = tk.Button(buttonFrame, text="Hit", font=("Arial", 14), bg="white", command=hit, state="disabled")
+hitButton = tk.Button(buttonFrame, text="Hit", font=("Georgia", 14), bg="white", command=hit, state="disabled")
 hitButton.grid(row=0, column=10, padx=10)
 
-standButton = tk.Button(buttonFrame, text="Stand", font=("Arial", 14), bg="white", command=stand, state="disabled")
+standButton = tk.Button(buttonFrame, text="Stand", font=("Georgia", 14), bg="white", command=stand, state="disabled")
 standButton.grid(row=0, column=1, padx=10)
 
-startButton = tk.Button(buttonFrame, text="Start Game", font=("Arial", 14), bg="yellow", command=startGame)
+startButton = tk.Button(buttonFrame, text="Start Game", font=("Georgia", 14), bg="yellow", command=startGame)
 startButton.grid(row=0, column=2, padx=10)
 
 deck = []
