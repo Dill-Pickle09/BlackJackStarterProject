@@ -163,7 +163,7 @@ root = tk.Tk()
 root.title("Blackjack in Python")
 root.config(bg="#006400")
 
-statusLabel = tk.Label(root, text="Welcome to Blackjack", font=("Arial", 20), bg="#006400", fg="white")
+statusLabel = tk.Label(root, text="Welcome to Blackjack", font=("Georgia", 20), bg="#006400", fg="white")
 statusLabel.pack(pady=20)
 
 playerFrame = tk.Frame(root, bg="#006400")
@@ -172,10 +172,10 @@ playerFrame.pack(pady=10)
 dealerFrame = tk.Frame(root, bg="#006400")
 dealerFrame.pack(pady=10)
 
-playerValueLabel = tk.Label(root, text="Player Value: 0", font=("Arial", 16), bg="#006400", fg="white")
+playerValueLabel = tk.Label(root, text="Player Value: 0", font=("Georgia", 16), bg="#006400", fg="white")
 playerValueLabel.pack(pady=5)
 
-dealerValueLabel = tk.Label(root, text="Dealer Value: 0", font=("Arial", 16), bg="#006400", fg="white")
+dealerValueLabel = tk.Label(root, text="Dealer Value: 0", font=("Georgia", 16), bg="#006400", fg="white")
 dealerValueLabel.pack(pady=5)
 
 
