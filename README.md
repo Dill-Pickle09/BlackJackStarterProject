@@ -2,4 +2,4 @@ This is a python Blackjack game which features multiple versions of the game suc
 
 Releases Link: https://github.com/Dill-Pickle09/BlackJackStarterProject/releases
 
-Once you have downloaded the file, unzip the file and it should work!
+Once you have downloaded the file, unzip the file and it should work! (Note this will only work on Windows)
